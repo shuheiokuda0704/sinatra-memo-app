@@ -1,23 +1,26 @@
 require 'sinatra'
 
 get '/' do
-  'redirect to memos'
+  redirect to('/memos')
 end
 
 get '/memos' do
-  'show memos page'
-end
-
-get '/memos/:id' do
-  'show memos/:id page'
+  erb :index
 end
 
 get '/memos/new' do
-  'show memos/new page'
+  erb :new
 end
 
+get '/memos/:id' do
+  # @memo = Memo.find params[:id]
+  erb :detail
+end
+
+
 get '/memos/:id/edit' do
-  'show memos/:id/edit page'
+  # @memo = Memo.find params[:id]
+  erb :edit
 end
 
 post '/memos' do

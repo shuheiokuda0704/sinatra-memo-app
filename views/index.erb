@@ -1,1 +1,9 @@
-<h1>index</h1>
+<h1>メモアプリ</h1>
+
+<% @memos.each do |memo| %>
+  <ul>
+    <li><%= memo.title %>
+  </ul>
+<% end %>
+
+<button onclick="location.href='/memos/new'">追加</button>

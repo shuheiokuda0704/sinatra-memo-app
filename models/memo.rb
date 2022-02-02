@@ -1,19 +1,27 @@
 class Memo
-  attr_accessor :title, :content
+  attr_accessor :id, :title, :content
 
-  def initialize(title, content)
+  @@memos = File.read('db/memo.json') do |file|
+    JSON.load(file)
+  end
+  @@memos = JSON.parse(@@memos)
+  
+  def initialize(id, title, content)
+    @id = id
     @title = title
     @content = content
   end
 
-  def self.create
+  def self.create(params)
   end
 
   def self.update(memo_id)
   end
 
   def self.all
-    [ Memo.new("title1", "content1"), Memo.new("title2", "content2") ]
+    @@memos['memos'].map do |memo|
+      Memo.new(memo['id'], memo['title'], memo['content'])
+    end
   end
 
   def self.find(memo_id)

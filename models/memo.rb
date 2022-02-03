@@ -10,6 +10,8 @@ class Memo
   end
 
   def self.create(params)
+    load_json
+
     current_memos = @@memos['memos']
     next_id = @@memos['memos'].map{|memo| memo['id']}.max + 1
     @@memos['memos'] = current_memos.append({id: next_id, title: params[:title], content: params[:content]})
@@ -19,6 +21,11 @@ class Memo
   end
 
   def update(params)
+    load_json
+
+    # TODO
+
+    save_json
   end
 
   def self.all
@@ -30,9 +37,17 @@ class Memo
   end
 
   def self.find(memo_id)
+    load_json
+
+    memo = @@memos['memos'].find { |memo| memo['id'] == memo_id.to_i }
+
+    Memo.new(memo['id'], memo['title'], memo['content'])
   end
 
   def destroy
+    load_json
+
+    # TODO
   end
 
   private

@@ -1,1 +1,15 @@
-<h1>detail</h1>
+<h1>メモアプリ</h1>
+
+<div>
+  <div>
+    <%= @memo.title %>
+  </div>
+  <div>
+    <p>
+      <%= @memo.content %>
+    </p>
+  </div>
+</div>
+
+<button onclick="location.href='/memos/<%= @memo.id %>/edit'">変更</button>
+<button onclick="location.href='/memos/<%= @memo.id %>'">削除</button>

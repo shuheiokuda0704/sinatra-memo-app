@@ -17,23 +17,33 @@ end
 
 get '/memos/:id' do
   @memo = Memo.find params[:id]
+
   erb :detail
 end
 
 
 get '/memos/:id/edit' do
   @memo = Memo.find params[:id]
+
   erb :edit
 end
 
 post '/memos' do
-  'create new memo'
+  memo = Memo.create(params)
+
+  redirect to("memos/#{memo.id}")
 end
 
 patch '/memos/:id' do
-  'update memo'
+  memo = Memo.find params[:id]
+  memo.update(params)
+
+  redirect to("memos/#{memo.id}")
 end
 
 delete '/memos/:id' do
-  'delete memo'
+  memo = Memo.find params[:id]
+  memo.destroy
+
+  redirect to('/memos')
 end

@@ -1,7 +1,9 @@
 class Memo
   attr_accessor :id, :title, :content
 
-  @@memos = File.read('db/memo.json') do |file|
+  JSON = 'db/memo.json'
+
+  @@memos = File.read(JSON) do |file|
     JSON.load(file)
   end
   @@memos = JSON.parse(@@memos)
@@ -13,9 +15,13 @@ class Memo
   end
 
   def self.create(params)
+    current_memos = @@memos['memos']
+    next_id = @@memos['memos'].map{|memo| memo['id']}.max + 1
+    @@memos['memos'] = current_memos.append({id: next_id, title: params[:title], content: params[:content]})
+
   end
 
-  def self.update(memo_id)
+  def update(params)
   end
 
   def self.all
@@ -27,6 +33,14 @@ class Memo
   def self.find(memo_id)
   end
 
-  def self.destroy(memo_id)
+  def destroy
+  end
+
+  private
+
+  def save_json
+    File.open(JSON, 'w') do |file|
+      JSON.dump(@@memos, file)
+    end
   end
 end

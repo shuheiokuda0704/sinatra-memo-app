@@ -21,11 +21,11 @@ class Memo
   end
 
   def update(params)
-    load_json
+    Memo.load_json
 
     # TODO
 
-    save_json
+    Memo.save_json
   end
 
   def self.all
@@ -45,9 +45,11 @@ class Memo
   end
 
   def destroy
-    load_json
+    Memo.load_json
 
-    # TODO
+    @@memos['memos'] = @@memos['memos'].reject { |memo| memo['id'] == @id.to_i }
+
+    Memo.save_json
   end
 
   private

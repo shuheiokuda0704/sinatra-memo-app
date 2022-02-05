@@ -23,7 +23,13 @@ class Memo
   def update(params)
     Memo.load_json
 
-    # TODO
+    @@memos['memos'] = @@memos['memos'].map do |memo|
+      if memo['id'] == @id.to_i
+        { id: memo['id'], title: params[:title], content: params[:content] }
+       else
+        memo
+       end
+    end
 
     Memo.save_json
   end

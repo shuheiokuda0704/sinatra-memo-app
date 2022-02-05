@@ -36,6 +36,7 @@ end
 
 patch '/memos/:id' do
   memo = Memo.find params[:id]
+
   memo.update(params)
 
   redirect to("memos/#{memo.id}")

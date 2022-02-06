@@ -4,7 +4,7 @@ class Memo
   attr_accessor :id, :title, :content
 
   MEMO_JSON = 'db/memo.json'
-  
+
   def initialize(id, title, content)
     @id = id
     @title = title
@@ -15,8 +15,8 @@ class Memo
     load_json
 
     current_memos = @@memos['memos']
-    next_id = @@memos['memos'].map{|memo| memo['id']}.max + 1
-    @@memos['memos'] = current_memos.append({id: next_id, title: params[:title], content: params[:content]})
+    next_id = @@memos['memos'].map { |memo| memo['id'] }.max + 1
+    @@memos['memos'] = current_memos.append({ id: next_id, title: params[:title], content: params[:content] })
     save_json
 
     Memo.new(next_id, params[:title], params[:content])
@@ -30,9 +30,9 @@ class Memo
       if memo['id'] == @id.to_i
         updated = true
         { id: memo['id'], title: params[:title], content: params[:content] }
-       else
+      else
         memo
-       end
+      end
     end
 
     return nil unless updated
@@ -69,8 +69,6 @@ class Memo
 
     target
   end
-
-  private
 
   def self.load_json
     file = File.read(MEMO_JSON) do |file|

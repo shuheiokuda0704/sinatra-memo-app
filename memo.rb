@@ -21,7 +21,6 @@ get '/memos/:id' do
   erb :detail
 end
 
-
 get '/memos/:id/edit' do
   @memo = Memo.find params[:id]
 

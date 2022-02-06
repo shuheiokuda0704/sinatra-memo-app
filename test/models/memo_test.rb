@@ -2,8 +2,6 @@ require 'minitest/autorun'
 require './models/memo'
 
 class Memo
-  private
-
   # Don't update memo.json for test
   def self.save_json
     # Nothing to do
@@ -20,7 +18,7 @@ class MemoTest < Minitest::Test
   end
 
   def test_create
-    params = {title: 'title', content: 'content'}
+    params = { title: 'title', content: 'content' }
     memo = Memo.create(params)
 
     assert_equal 'title', memo.title
@@ -29,7 +27,7 @@ class MemoTest < Minitest::Test
 
   def test_update
     memo = Memo.new(1, 'title1', 'content1')
-    params = {id: 1, title: 'title', content: 'content'}
+    params = { id: 1, title: 'title', content: 'content' }
     memo = memo.update(params)
 
     assert_equal 'title', memo.title
@@ -38,7 +36,7 @@ class MemoTest < Minitest::Test
 
   def test_update_nil
     memo = Memo.new(4, 'title1', 'content1')
-    params = {id: 4, title: 'title', content: 'content'}
+    params = { id: 4, title: 'title', content: 'content' }
     memo = memo.update(params)
 
     assert_nil memo
@@ -46,9 +44,9 @@ class MemoTest < Minitest::Test
 
   def test_all
     memos = Memo.all
-    expected = [ Memo.new(1, 'title1', 'content1'),
-                 Memo.new(2, 'title2', 'content2'),
-                 Memo.new(3, 'title3', 'content3') ]
+    expected = [Memo.new(1, 'title1', 'content1'),
+                Memo.new(2, 'title2', 'content2'),
+                Memo.new(3, 'title3', 'content3')]
 
     assert_equal expected.size, memos.size
     memos.each_with_index do |memo, index|

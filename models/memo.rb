@@ -1,3 +1,5 @@
+require 'json'
+
 class Memo
   attr_accessor :id, :title, :content
 

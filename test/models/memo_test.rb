@@ -4,6 +4,7 @@ require './models/memo'
 class Memo
   private
 
+  # Don't update memo.json for test
   def self.save_json
     # Nothing to do
   end

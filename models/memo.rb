@@ -25,15 +25,20 @@ class Memo
   def update(params)
     Memo.load_json
 
+    updated = false
     @@memos['memos'] = @@memos['memos'].map do |memo|
       if memo['id'] == @id.to_i
+        updated = true
         { id: memo['id'], title: params[:title], content: params[:content] }
        else
         memo
        end
     end
 
+    return nil unless updated
+
     Memo.save_json
+    Memo.new(@id.to_i, params[:title], params[:content])
   end
 
   def self.all
@@ -49,15 +54,20 @@ class Memo
 
     memo = @@memos['memos'].find { |memo| memo['id'] == memo_id.to_i }
 
+    return nil unless memo
+
     Memo.new(memo['id'], memo['title'], memo['content'])
   end
 
   def destroy
     Memo.load_json
 
+    target = Memo.find(@id.to_i)
     @@memos['memos'] = @@memos['memos'].reject { |memo| memo['id'] == @id.to_i }
 
     Memo.save_json
+
+    target
   end
 
   private

@@ -26,4 +26,68 @@ class MemoTest < Minitest::Test
     assert_equal 'title', memo.title
     assert_equal 'content', memo.content
   end
+
+  def test_update
+    memo = Memo.new(1, 'title1', 'content1')
+    params = {id: 1, title: 'title', content: 'content'}
+    memo = memo.update(params)
+
+    assert_equal 'title', memo.title
+    assert_equal 'content', memo.content
+  end
+
+  def test_update_nil
+    memo = Memo.new(4, 'title1', 'content1')
+    params = {id: 4, title: 'title', content: 'content'}
+    memo = memo.update(params)
+
+    assert_nil memo
+  end
+
+  def test_all
+    memos = Memo.all
+    expected = [ Memo.new(1, 'title1', 'content1'),
+                 Memo.new(2, 'title2', 'content2'),
+                 Memo.new(3, 'title3', 'content3') ]
+
+    assert_equal expected.size, memos.size
+    memos.each_with_index do |memo, index|
+      assert_equal expected[index].id, memo.id
+      assert_equal expected[index].title, memo.title
+      assert_equal expected[index].content, memo.content
+    end
+  end
+
+  def test_find
+    memo = Memo.find(1)
+    expected = Memo.new(1, 'title1', 'content1')
+
+    assert_equal expected.id, memo.id
+    assert_equal expected.title, memo.title
+    assert_equal expected.content, memo.content
+  end
+
+  def test_find_not_found
+    memo = Memo.find(4)
+
+    assert_nil memo
+  end
+
+  def test_destroy
+    memo = Memo.new(1, 'title1', 'content1')
+
+    actual = memo.destroy
+
+    assert_equal 1, actual.id
+    assert_equal 'title1', actual.title
+    assert_equal 'content1', actual.content
+  end
+
+  def test_destroy_not_found
+    memo = Memo.new(4, 'title1', 'content1')
+
+    actual = memo.destroy
+
+    assert_nil actual
+  end
 end

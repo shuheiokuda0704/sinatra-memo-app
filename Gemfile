@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 
 gem 'minitest'
+gem 'rubocop-fjord'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'webrick'

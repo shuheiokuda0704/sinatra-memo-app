@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 
 class Memo
@@ -71,10 +73,10 @@ class Memo
   end
 
   def self.load_json
-    file = File.read(MEMO_JSON) do |file|
-      JSON.load(file)
+    json = File.read(MEMO_JSON) do |file|
+      JSON.parse(file)
     end
-    @@memos = JSON.parse(file)
+    @@memos = JSON.parse(json)
   end
 
   def self.save_json

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'minitest/autorun'
 require './models/memo'
 
@@ -28,18 +30,18 @@ class MemoTest < Minitest::Test
   def test_update
     memo = Memo.new(1, 'title1', 'content1')
     params = { id: 1, title: 'title', content: 'content' }
-    memo = memo.update(params)
+    actual = memo.update(params)
 
-    assert_equal 'title', memo.title
-    assert_equal 'content', memo.content
+    assert_equal 'title', actual.title
+    assert_equal 'content', actual.content
   end
 
   def test_update_nil
     memo = Memo.new(4, 'title1', 'content1')
     params = { id: 4, title: 'title', content: 'content' }
-    memo = memo.update(params)
+    actual = memo.update(params)
 
-    assert_nil memo
+    assert_nil actual
   end
 
   def test_all

@@ -91,6 +91,6 @@ class Memo
   end
 
   def self.json(json)
-    @json = json
+    @memos = json
   end
 end

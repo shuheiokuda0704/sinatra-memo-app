@@ -55,7 +55,7 @@ end
 
 delete '/memos/:id' do
   memo = Memo.find params[:id]
-  redirect to('memos/notfound') unless @memo
+  redirect to('memos/notfound') unless memo
 
   memo.destroy
   redirect to('/memos')

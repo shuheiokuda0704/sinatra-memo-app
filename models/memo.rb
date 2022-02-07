@@ -65,7 +65,6 @@ class Memo
 
   def destroy
     memos = Memo.load_json
-
     target = Memo.find(@id.to_i)
     return nil unless target
 
@@ -73,7 +72,6 @@ class Memo
 
     Memo.json(memos)
     Memo.save_json
-
     target
   end
 

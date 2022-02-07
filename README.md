@@ -1,5 +1,9 @@
 # sinatra-memo-app
 
+## 前提条件
+
+### Ruby Version
+3.1.0
 ## 実行方法
 
 1. アプリのルートディレクトリ (`sinatra-memo-app/`) に移動します
@@ -15,6 +19,7 @@
   - `git checkout db/memo.json`
 ## テスト実行方法
 
+1. *メモデータの初期化* を実行してください
 1. アプリのルートディレクトリ (`sinatra-memo-app/`) に移動します
 1. `bundle exec ruby test/models/memo_test.rb` を実行します
 

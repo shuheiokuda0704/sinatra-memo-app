@@ -24,7 +24,7 @@ end
 get '/memos/:id' do
   @memo = Memo.find params[:id]
 
-  redirect to("memos/notfound") unless @memo
+  redirect to('memos/notfound') unless @memo
 
   erb :detail
 end
@@ -32,12 +32,12 @@ end
 get '/memos/:id/edit' do
   @memo = Memo.find params[:id]
 
-  redirect to("memos/notfound") unless @memo
+  redirect to('memos/notfound') unless @memo
   erb :edit
 end
 
 get '/*' do
-  redirect to("memos/notfound") unless @memo
+  redirect to('memos/notfound') unless @memo
 end
 
 post '/memos' do
@@ -48,7 +48,7 @@ end
 
 patch '/memos/:id' do
   memo = Memo.find params[:id]
-  redirect to("memos/notfound") unless memo
+  redirect to('memos/notfound') unless memo
 
   memo.update(escape_params(params))
   redirect to("memos/#{memo.id}")
@@ -56,7 +56,7 @@ end
 
 delete '/memos/:id' do
   memo = Memo.find params[:id]
-  redirect to("memos/notfound") unless @memo
+  redirect to('memos/notfound') unless @memo
 
   memo.destroy
   redirect to('/memos')

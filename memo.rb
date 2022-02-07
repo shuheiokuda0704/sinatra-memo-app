@@ -23,7 +23,6 @@ end
 
 get '/memos/:id' do
   @memo = Memo.find params[:id]
-
   redirect to('memos/notfound') unless @memo
 
   erb :detail
@@ -31,8 +30,8 @@ end
 
 get '/memos/:id/edit' do
   @memo = Memo.find params[:id]
-
   redirect to('memos/notfound') unless @memo
+
   erb :edit
 end
 

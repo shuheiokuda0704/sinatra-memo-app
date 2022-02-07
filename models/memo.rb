@@ -57,7 +57,6 @@ class Memo
     load_json
 
     memo = @memos['memos'].find { |m| m['id'] == memo_id.to_i }
-
     return nil unless memo
 
     Memo.new(memo['id'], memo['title'], memo['content'])

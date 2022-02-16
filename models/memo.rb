@@ -18,8 +18,8 @@ class Memo
   def self.create(params)
     load_json
 
-    next_id = @memos['memos'].map { |memo| memo['id'] }.max + 1
-    @memos['memos'] = @memos['memos'].append({ id: next_id, title: params[:title], content: params[:content] })
+    next_id = @memos[:memos].map { |memo| memo[:id] }.max + 1
+    @memos[:memos] = @memos[:memos].append({ id: next_id, title: params[:title], content: params[:content] })
     save_json
 
     Memo.new(next_id, params[:title], params[:content])
@@ -29,10 +29,10 @@ class Memo
     memos = Memo.load_json
 
     updated = false
-    memos['memos'] = memos['memos'].map do |memo|
-      if memo['id'] == @id.to_i
+    memos[:memos] = memos[:memos].map do |memo|
+      if memo[:id] == @id.to_i
         updated = true
-        { id: memo['id'], title: params[:title], content: params[:content] }
+        { id: memo[:id], title: params[:title], content: params[:content] }
       else
         memo
       end
@@ -48,18 +48,18 @@ class Memo
   def self.all
     load_json
 
-    @memos['memos'].map do |memo|
-      Memo.new(memo['id'], memo['title'], memo['content'])
+    @memos[:memos].map do |memo|
+      Memo.new(memo[:id], memo[:title], memo[:content])
     end
   end
 
   def self.find(memo_id)
     load_json
 
-    memo = @memos['memos'].find { |m| m['id'] == memo_id.to_i }
+    memo = @memos[:memos].find { |m| m[:id] == memo_id.to_i }
     return nil unless memo
 
-    Memo.new(memo['id'], memo['title'], memo['content'])
+    Memo.new(memo[:id], memo[:title], memo[:content])
   end
 
   def destroy
@@ -67,7 +67,7 @@ class Memo
     target = Memo.find(@id.to_i)
     return nil unless target
 
-    memos['memos'] = memos['memos'].reject { |memo| memo['id'] == @id.to_i }
+    memos[:memos] = memos[:memos].reject { |memo| memo[:id] == @id.to_i }
 
     Memo.json(memos)
     Memo.save_json
@@ -78,7 +78,7 @@ class Memo
     json = File.read(MEMO_JSON) do |file|
       JSON.parse(file)
     end
-    @memos = JSON.parse(json)
+    @memos = JSON.parse(json, symbolize_names: true)
   end
 
   def self.save_json

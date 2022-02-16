@@ -29,12 +29,10 @@ class Memo
     memos = Memo.load_json
 
     index = memos[:memos].find_index { |memo| memo[:id] == @id.to_i }
-    if index
-      memos[:memos][index][:title] = params[:title]
-      memos[:memos][index][:content] = params[:content]
-    else
-      return nil
-    end
+    return nil unless index
+
+    memos[:memos][index][:title] = params[:title]
+    memos[:memos][index][:content] = params[:content]
 
     Memo.json(memos)
     Memo.save_json

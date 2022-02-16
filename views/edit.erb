@@ -5,10 +5,10 @@
   <input type="hidden" name="id" value="<%= @memo.id %>">
 
   <div>
-    <input type="text" name="title" value="<%= @memo.title %>" placeholder="タイトル">
+    <input type="text" name="title" value="<%= escape(@memo.title) %>" placeholder="タイトル">
   </div>
   <div>
-    <textarea name="content" rows="5" placeholder="メモ"><%= @memo.content %></textarea>
+    <textarea name="content" rows="5" placeholder="メモ"><%= escape(@memo.content) %></textarea>
   </div>
   <div>
     <input type="submit" value="更新">

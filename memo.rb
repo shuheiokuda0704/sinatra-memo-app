@@ -40,7 +40,7 @@ get '/*' do
 end
 
 post '/memos' do
-  memo = Memo.create(escape_params(params))
+  memo = Memo.create(params)
 
   redirect to("memos/#{memo.id}")
 end
@@ -49,7 +49,7 @@ patch '/memos/:id' do
   memo = Memo.find params[:id]
   redirect to('memos/notfound') unless memo
 
-  memo.update(escape_params(params))
+  memo.update(params)
   redirect to("memos/#{memo.id}")
 end
 
@@ -62,14 +62,7 @@ delete '/memos/:id' do
 end
 
 helpers do
-  def h(text)
+  def escape(text)
     Rack::Utils.escape_html(text)
-  end
-
-  def escape_params(params)
-    params[:title] = h(params[:title])
-    params[:content] = h(params[:content])
-
-    params
   end
 end

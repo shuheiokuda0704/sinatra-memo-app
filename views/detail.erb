@@ -2,11 +2,11 @@
 
 <div>
   <div>
-    <%= @memo.title %>
+    <%= escape(@memo.title) %>
   </div>
   <div>
     <p>
-      <%= @memo.content %>
+      <%= escape(@memo.content) %>
     </p>
   </div>
 </div>

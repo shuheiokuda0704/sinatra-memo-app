@@ -28,17 +28,13 @@ class Memo
   def update(params)
     memos = Memo.load_json
 
-    updated = false
-    memos[:memos] = memos[:memos].map do |memo|
-      if memo[:id] == @id.to_i
-        updated = true
-        { id: memo[:id], title: params[:title], content: params[:content] }
-      else
-        memo
-      end
+    index = memos[:memos].find_index { |memo| memo[:id] == @id.to_i }
+    if index
+      memos[:memos][index][:title] = params[:title]
+      memos[:memos][index][:content] = params[:content]
+    else
+      return nil
     end
-
-    return nil unless updated
 
     Memo.json(memos)
     Memo.save_json

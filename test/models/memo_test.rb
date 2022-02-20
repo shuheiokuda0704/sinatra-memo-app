@@ -3,9 +3,9 @@
 require 'minitest/autorun'
 require './models/memo'
 
-class Memo
-  # Don't update memo.json for test
-  def self.save_json
+class JsonDb
+  # Don't update db.json for test
+  def self.save_json(memos)
     # Nothing to do
   end
 end

@@ -13,10 +13,10 @@
 
 # メモデータの初期化
 
-- メモデータは `db/memo.json` に保存されます
+- メモデータは `db/db.json` に保存されます
 - 初期データとして、3つのサンプルデータが含まれています(title1/content1, title2/content2, title3/content3)
-- データを初期化する場合は、 `memo.json` の変更をリバートしてください
-  - `git checkout db/memo.json`
+- データを初期化する場合は、 `db.json` の変更をリバートしてください
+  - `git checkout db/db.json`
 ## テスト実行方法
 
 1. *メモデータの初期化* を実行してください

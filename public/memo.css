@@ -1,0 +1,21 @@
+body {
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: 36px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+a{
+  color: #000000;
+  text-decoration: none;
+}
+a:hover{
+  color: #4B0082;
+}
+
+form {
+  margin-top: 24px;
+}

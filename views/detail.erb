@@ -1,0 +1,18 @@
+<h1><a href="/memos">メモアプリ</a></h1>
+
+<div>
+  <div>
+    <%= escape(@memo.title) %>
+  </div>
+  <div>
+    <p>
+      <%= escape(@memo.content) %>
+    </p>
+  </div>
+</div>
+
+<button onclick="location.href='/memos/<%= @memo.id %>/edit'">変更</button>
+<form method="post" action="/memos/<%= @memo.id %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="削除">
+</form>

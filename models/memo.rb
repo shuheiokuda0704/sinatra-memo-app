@@ -15,8 +15,8 @@ class Memo
   end
 
   def self.create(params)
-    CONN.exec("INSERT INTO memos (title, content) VALUES ('#{params[:title]}', '#{params[:content]}');")
-    res = CONN.exec("SELECT * FROM memos ORDER BY id DESC LIMIT 1").first
+    CONN.exec_params('INSERT INTO memos (title, content) VALUES ($1::text, $2::text);', [params[:title], params[:content]])
+    res = CONN.exec('SELECT * FROM memos ORDER BY id DESC LIMIT 1').first
     Memo.new(res['id'].to_i, res['title'], res['content'])
   end
 
@@ -24,13 +24,13 @@ class Memo
     target = Memo.find(@id.to_i)
     return nil unless target
 
-    CONN.exec("UPDATE memos SET title = '#{params[:title]}', content = '#{params[:content]}' WHERE id = #{@id.to_i}")
+    CONN.exec('UPDATE memos SET title = $1::text, content = $2::text WHERE id = $3::int;', [params[:title], params[:content], @id.to_i])
 
     Memo.find(@id.to_i)
   end
 
   def self.all
-    res = CONN.exec("SELECT * FROM memos ORDER BY id")
+    res = CONN.exec('SELECT * FROM memos ORDER BY id')
     res.map do |record|
       Memo.new(record['id'].to_i, record['title'], record['content'])
     end

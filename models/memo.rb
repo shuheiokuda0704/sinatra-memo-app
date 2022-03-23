@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '../db/json_db'
+require 'pg'
 
 class Memo
   attr_accessor :id, :title, :content
+
+  DB_NAME = 'memos'
+  CONN = PG.connect(dbname: DB_NAME)
 
   def initialize(id, title, content)
     @id = id
@@ -12,54 +15,39 @@ class Memo
   end
 
   def self.create(params)
-    memos = JsonDb.load_json
-
-    next_id = memos[:memos].map { |memo| memo[:id] }.max + 1
-    memo = Memo.new(next_id, params[:title], params[:content])
-    memos[:memos] = memos[:memos].append({ id: memo.id, title: memo.title, content: memo.content })
-    JsonDb.save_json(memos)
-
-    memo
+    CONN.exec("INSERT INTO memos (title, content) VALUES ('#{params[:title]}', '#{params[:content]}');")
+    res = CONN.exec("SELECT * FROM memos ORDER BY id DESC LIMIT 1").first
+    Memo.new(res['id'].to_i, res['title'], res['content'])
   end
 
   def update(params)
-    memos = JsonDb.load_json
+    target = Memo.find(@id.to_i)
+    return nil unless target
 
-    index = memos[:memos].find_index { |memo| memo[:id] == @id.to_i }
-    return nil unless index
+    CONN.exec("UPDATE memos SET title = '#{params[:title]}', content = '#{params[:content]}' WHERE id = #{@id.to_i}")
 
-    memos[:memos][index][:title] = params[:title]
-    memos[:memos][index][:content] = params[:content]
-
-    JsonDb.save_json(memos)
     Memo.find(@id.to_i)
   end
 
   def self.all
-    memos = JsonDb.load_json
-
-    memos[:memos].map do |memo|
-      Memo.new(memo[:id], memo[:title], memo[:content])
+    res = CONN.exec("SELECT * FROM memos ORDER BY id")
+    res.map do |record|
+      Memo.new(record['id'].to_i, record['title'], record['content'])
     end
   end
 
   def self.find(memo_id)
-    memos = JsonDb.load_json
+    res = CONN.exec("SELECT * FROM memos WHERE id = #{memo_id}").first
+    return nil unless res
 
-    memo = memos[:memos].find { |m| m[:id] == memo_id.to_i }
-    return nil unless memo
-
-    Memo.new(memo[:id], memo[:title], memo[:content])
+    Memo.new(res['id'].to_i, res['title'], res['content'])
   end
 
   def destroy
-    memos = JsonDb.load_json
     target = Memo.find(@id.to_i)
     return nil unless target
 
-    memos[:memos] = memos[:memos].reject { |memo| memo[:id] == @id.to_i }
-
-    JsonDb.save_json(memos)
+    CONN.exec("DELETE FROM memos WHERE id = #{@id.to_i}")
     target
   end
 end

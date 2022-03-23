@@ -3,8 +3,6 @@
 require 'minitest/autorun'
 require './models/memo'
 
-system('./scripts/initiate_db.sh')
-
 class MemoTest < Minitest::Test
   def test_initialize
     memo = Memo.new(1, 'title', 'content')
@@ -22,6 +20,17 @@ class MemoTest < Minitest::Test
     assert_equal 'content', memo.content
   end
 
+  def test_create_sql_injection
+    memo_num = Memo.all.size
+    params = { title: 'title', content: 'content\'); DELETE FROM memos where id is not null or content in (\'' }
+
+    memo = Memo.create(params)
+
+    assert_equal 'title', memo.title
+    assert_equal 'content\'); DELETE FROM memos where id is not null or content in (\'', memo.content
+    assert_equal memo_num + 1, Memo.all.size
+  end
+
   def test_update
     memo = Memo.find(Memo.all.last.id)
     params = { title: 'title', content: 'content' }
@@ -29,6 +38,18 @@ class MemoTest < Minitest::Test
 
     assert_equal 'title', actual.title
     assert_equal 'content', actual.content
+  end
+
+  def test_update_sql_injection
+    memo_num = Memo.all.size
+
+    memo = Memo.find(Memo.all.last.id)
+    params = { title: 'title', content: 'content\'); DELETE FROM memos where id is not null or content in (\'' }
+    actual = memo.update(params)
+
+    assert_equal 'title', actual.title
+    assert_equal 'content\'); DELETE FROM memos where id is not null or content in (\'', actual.content
+    assert_equal memo_num, Memo.all.size
   end
 
   def test_update_nil
